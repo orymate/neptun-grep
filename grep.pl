@@ -2,6 +2,13 @@ use Irssi;
 
 use vars qw($VERSION %IRSSI);
 
+# absolute path to data file #1
+$f1 = "/home/web/.irssi/scripts/i3.csv";
+# absolute path to fallback data file
+$f2 = "/home/web/.irssi/scripts/i3.ascii.csv";
+# absolute path to grep.sh script
+$grepsh = "/home/web/.irssi/scripts/grep.sh";
+
 $VERSION = "1.0";
 %IRSSI = (
 		author => 'hunmaat',
@@ -12,19 +19,23 @@ $VERSION = "1.0";
 	 );
 
 sub event_privmsg {
+	use vars qw($grepsh $f1 $f2);
 	my ($server, $data, $nick, $mask) = @_;
 
+                                            # pattern of query
 	my ($target, $text) = $data =~ /^(.*)\s:\.nept? (.*)/;
 	if ($text and $target) {
-		if ($target !~ /^[#&]/) {
+		if ($target !~ /^[#&+!]/) {
 			$target = $nick;
 		}
 		$result = open(GREP,"-|");
-		exec "/home/web/.irssi/scripts/grep.sh", $text 
+		if (!$result) {
+			break;
+		}
+		exec $grepsh, $text , $f1, $f2
 			or die("wtf") if $result == 0;
 		while (<GREP>) {
 			$server->command("msg $target $nick: $_");
-			last;
 		}
 		close(GREP);
 	}
