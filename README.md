@@ -1,32 +1,24 @@
 Install
 =======
 
-1. Install Text::Unidecode Perl module to perl include path.
-2. Copy accent2.pl to ~/.irssi/scripts/ or ~/.irssi/scripts/autorun/
+1. Copy grep.* to ~/.irssi/scripts/ or ~/.irssi/scripts/autorun/
+2. Set paths in grep.pl
 3. Load module to irssi.
 
-        /SCRIPT LOAD accent2
+        /SCRIPT LOAD grep
 
 Remove
 ======
 
 1. Unload module from irssi.
 
-        /SCRIPT UNLOAD accent2
+        /SCRIPT UNLOAD grep
 2. Remove script file.
 
-        find ~/.irssi/scripts -name accent2.pl print0 | xargs -0 rm
+        find ~/.irssi/scripts -name grep.\* -print0 | xargs -0 rm
 
 Usage
 =====
 
-1.  Specify channels script should operate on:
-
-        /SET accent2_strip #list #of #channels and users
-
-2.  Set escape prefix. Remaining parts of lines beginning with this 
-    string will be sent as they are.
-
-        /SET accent2_escape §§
-
-3.  Enjoy.
+This irssi will answer all privmsgs (both private and public) starting with
+".nep ".
